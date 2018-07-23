@@ -1,6 +1,8 @@
 require([
-    'js/widget/formTableRestaurant.js',
+    'widget/formTableRestaurant',
     'dojo/domReady!'
 ], function (formTableRestaurant) {
-    formTableRestaurant.showByType()
+    // new formTableRestaurant({
+    //     t: '2'
+    // }, 'test').startup()
 })

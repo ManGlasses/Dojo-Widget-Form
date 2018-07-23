@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="http://map.nostramap.com/arcgis_js_api/library/3.13/3.13/dijit/themes/claro/claro.css" />
     <link rel="stylesheet" href="css/main.css" />
 
+    <!-- json -->
+    <script src="json/Practice3Data.js"></script>
+
+    <title>Dojo - Widget - Form</title>
+</head>
+
+<body class="claro">
+    <div id="test"></div>
+    <div data-dojo-type="widget/formTableRestaurant"></div>
+
     <script>
         var baseLocation = window.location.origin;
         var loc = window.location.pathname;
@@ -26,22 +36,13 @@
     <!-- dojo -->
     <script src="https://ajax.googleapis.com/ajax/libs/dojo/1.13.0/dojo/dojo.js"></script>
 
-    <!-- json -->
-    <script src="json/Practice3Data.js"></script>
+    <script>
+        require(["dojo/parser", 'widget/formTableRestaurant'], function (parser) {
+            parser.parse()
+        })
+    </script>
 
     <script src="js/main.js"></script>
-
-    <title>Dojo - Widget - Form</title>
-</head>
-
-<body class="claro">
-    <div data-dojo-type="widget/formTableRestaurant"></div>
 </body>
-
-<script>
-    require(["dojo/parser", 'widget/formTableRestaurant'], function (parser) {
-        parser.parse()
-    })
-</script>
 
 </html>
