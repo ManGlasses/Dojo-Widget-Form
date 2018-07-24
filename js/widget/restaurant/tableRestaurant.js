@@ -31,7 +31,7 @@ define([
                     let tdButtonViewMenu = domConstruct.create('td', null, trBodyTable)
                     let btnViewMenu = domConstruct.create('input', { type: 'button', value: 'View Menu' }, tdButtonViewMenu)
                     on(btnViewMenu, 'click', () => {
-
+                        this.onClick_btnViewMenu(item)
                     })
 
                     let tdButtonEdit = domConstruct.create('td', null, trBodyTable)
@@ -55,6 +55,7 @@ define([
                 this.onClick_btnAddNewRow()
             }
         },
+        onClick_btnViewMenu: function () { },
         onClick_btnEdit: function (item, index) { },
         onClick_btnDelete: function (index) { },
         onClick_btnAddNewRow: function () { }

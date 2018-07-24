@@ -33,10 +33,8 @@ define([
                 detail: domAttr.get(this.textareaDetailNode, 'value')
             }
         },
-        saveRes: function () {
-            if (confirm('ต้องการบันทึกข้อมูลหรือไม่')) {
-                this.onClick_btnSave()
-            }
+        save: function () {
+            this.onClick_btnSave()
         },
         resetForm: function () {
             domAttr.set(this.textNameNode, 'value', '')

@@ -1,57 +1,103 @@
 require([
     'dojo/on',
-    'widget/tableRestaurant',
-    'widget/formRestaurant',
+    'dijit/registry',
+    'widget/restaurant/tableRestaurant',
+    'widget/restaurant/formRestaurant',
+    'widget/menu/tableMenu',
+    'widget/menu/formMenu',
     'dojo/domReady!'
-], function (on, tableRestaurant, formRestaurant) {
-    let tbRes = new tableRestaurant({
+], function (on, registry, tableRestaurant, formRestaurant, tableMenu, formMenu) {
+    let _tableRestaurant = new tableRestaurant({
         dataType: dataLUTResType,
         data: dataTblRestaurant
     }, 'tableRestaurant')
 
-    let formRes = new formRestaurant({
+    let _formRestaurant = new formRestaurant({
         dataType: dataLUTResType
     }, 'formRestaurant')
 
+    on(_tableRestaurant, 'Click_btnViewMenu', function (item) {
+        if (registry.byId('tableMenu') != undefined) {
+            registry.byId('tableMenu').destroyRecursive(true)
+        }
+        if (registry.byId('formMenu') != undefined) {
+            registry.byId('formMenu').destroyRecursive(true)
+        }
+
+        let _tableMenu = new tableMenu({
+            dataType: dataLUTMenuType,
+            data: dataTblMenu,
+            nameRes: item.name
+        }, 'tableMenu')
+
+        let _formMenu = new formMenu({
+            dataType: dataLUTMenuType
+        }, 'formMenu')
+
+        on(_tableMenu, 'Click_btnDelete', function (index) {
+            // editIndexRes = editIndexRes == index ? null : editIndexRes
+            dataTblMenu.splice(index, 1)
+            _tableMenu.createTable()
+            alert('ลบข้อมูลเรียบร้อย')
+        })
+
+        let currentIdMenu = dataTblMenu.length
+        on(_tableMenu, 'Click_btnAddNewRow', function () {
+            let _formMenu = _formMenu.getForm()
+            dataTblMenu.push({
+                id: ++currentIdMenu,
+                name: _formMenu.name,
+                categoryId: _formMenu.categoryId,
+                categoryName: _formMenu.categoryName,
+                price: _formMenu.price
+            })
+            _tableMenu.createTable()
+            alert('เพิ่มข้อมูลเรียบร้อย')
+        })
+    })
+
     let editIndexRes
-    on(tbRes, 'Click_btnEdit', function (item, index) {
-        formRes.setForm(item)
+    on(_tableRestaurant, 'Click_btnEdit', function (item, index) {
+        _formRestaurant.setForm(item)
         editIndexRes = index
     })
 
-    on(tbRes, 'Click_btnDelete', function (index) {
+    on(_tableRestaurant, 'Click_btnDelete', function (index) {
+        editIndexRes = editIndexRes == index ? null : editIndexRes
         dataTblRestaurant.splice(index, 1)
-        tbRes.createTable()
+        _tableRestaurant.createTable()
         alert('ลบข้อมูลเรียบร้อย')
     })
 
     let currentIdRes = dataTblRestaurant.length
-    on(tbRes, 'Click_btnAddNewRow', function () {
-        let _formRes = formRes.getForm()
+    on(_tableRestaurant, 'Click_btnAddNewRow', function () {
+        let dataFormRestaurant = _formRestaurant.getForm()
         dataTblRestaurant.push({
             id: ++currentIdRes,
-            name: _formRes.name,
-            restaurantType: _formRes.restaurantType,
-            restaurantTypeName: _formRes.restaurantTypeName,
-            detail: _formRes.detail
+            name: dataFormRestaurant.name,
+            restaurantType: dataFormRestaurant.restaurantType,
+            restaurantTypeName: dataFormRestaurant.restaurantTypeName,
+            detail: dataFormRestaurant.detail
         })
-        tbRes.createTable()
+        _tableRestaurant.createTable()
         alert('เพิ่มข้อมูลเรียบร้อย')
     })
 
-    on(formRes, 'Click_btnSave', function () {
+    on(_formRestaurant, 'Click_btnSave', function () {
         if (editIndexRes != null) {
-            let _formRes = formRes.getForm()
-            dataTblRestaurant[editIndexRes].name = _formRes.name
-            dataTblRestaurant[editIndexRes].restaurantType = _formRes.restaurantType
-            dataTblRestaurant[editIndexRes].restaurantTypeName = _formRes.restaurantTypeName
-            dataTblRestaurant[editIndexRes].detail = _formRes.detail
-            tbRes.createTable()
-            alert('บันทึกข้อมูลเรียบร้อย')
+            if (confirm('ต้องการบันทึกข้อมูลหรือไม่')) {
+                let dataFormRestaurant = _formRestaurant.getForm()
+                dataTblRestaurant[editIndexRes].name = dataFormRestaurant.name
+                dataTblRestaurant[editIndexRes].restaurantType = dataFormRestaurant.restaurantType
+                dataTblRestaurant[editIndexRes].restaurantTypeName = dataFormRestaurant.restaurantTypeName
+                dataTblRestaurant[editIndexRes].detail = dataFormRestaurant.detail
+                _tableRestaurant.createTable()
+                alert('บันทึกข้อมูลเรียบร้อย')
+            }
         }
     })
 
-    on(formRes, 'Click_btnCancel', function () {
+    on(_formRestaurant, 'Click_btnCancel', function () {
         editIndexRes = null
     })
 })
