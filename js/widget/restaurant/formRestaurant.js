@@ -4,9 +4,10 @@ define([
     'dojo/_base/declare',
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
+    'dijit/_WidgetsInTemplateMixin',
     'dojo/text!./templates/formRestaurant.html'
-], function (domConstruct, domAttr, declare, _WidgetBase, _TemplatedMixin, formRestaurant) {
-    return declare([_WidgetBase, _TemplatedMixin], {
+], function (domConstruct, domAttr, declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, formRestaurant) {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: formRestaurant,
         dataType: '',
         postCreate: function () {

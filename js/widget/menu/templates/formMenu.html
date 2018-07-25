@@ -12,13 +12,12 @@
 
     <div>
         <label>Price : </label>
-        <input type="text" data-dojo-attach-point='textPriceNode'></input>
-        <label>Baht</label>
+        <div data-dojo-type="widget/form/textboxNumber" data-dojo-attach-point='textPriceNode'></div>
     </div>
 
     <div>
-        <input type="button" value="Save" />
-        <input type="button" value="Cancel" />
+        <input type="button" value="Save" data-dojo-attach-event='onclick: save' />
+        <input type="button" value="Cancel" data-dojo-attach-event='onclick: resetForm' />
     </div>
 
 </div>
